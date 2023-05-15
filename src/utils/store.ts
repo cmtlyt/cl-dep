@@ -9,7 +9,7 @@ export function setStore(key: string, value: any) {
 export function getStore(key: string): any {
   let tempStore = store
   const keyPath = key.split('.')
-  keyPath.forEach((key) => {
+  keyPath.forEach(key => {
     tempStore = tempStore?.[key]
   })
   return tempStore
@@ -21,7 +21,12 @@ export function addLogCache(logParams: ILogItem) {
 
 export function getLogCache(): TArray<ILogItem> {
   const reportLevelFilter = getStore('config.reportLevelFilter')
-  return logCache.filter((logItem) => ~reportLevelFilter.indexOf(logItem.level))
+  const reportFilter: TSome<Function> = getStore('config.reportFilter')
+  let logList = logCache.filter(logItem => ~reportLevelFilter.indexOf(logItem.level))
+  if (typeof reportFilter === 'function') {
+    logList = logList.filter(reportFilter)
+  }
+  return logList
 }
 
 export function clearLogCache() {

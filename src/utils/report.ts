@@ -7,9 +7,10 @@ let timer: TSome<number>
 function generateLogItem(type: string, data: any): ILogItem {
   const appID = getStore('config.appID')
   const userID = getStore('config.userID')
+  const generateLogItem: TSome<Function> = getStore('config.generateLogItem')
   const { kind, message, position, level, ..._other } = data
   const { error, file, _message, path, ...other } = _other
-  return {
+  const logItem = {
     kind,
     type,
     appID,
@@ -25,6 +26,7 @@ function generateLogItem(type: string, data: any): ILogItem {
     currentPage: location.href,
     userAgent: getUserAgent(navigator.userAgent),
   }
+  return generateLogItem?.(logItem) || logItem
 }
 
 export function lazyReport(type: string, data: any) {

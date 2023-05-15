@@ -23,6 +23,8 @@ interface IConfig {
   reportLevelFilter: TArray<string | number>
   eventList: TArray<string>
   selectorType: string
+  reportFilter?: Function
+  generateLogItem?: Function
 }
 
 interface IUserAgent {

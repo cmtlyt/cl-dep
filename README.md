@@ -1,3 +1,16 @@
+### 0.1.3
+
+- `loadConfig` 新增配置项
+  - 支持自定义过滤上报日志
+  - 支持自定义生成日志格式
+
+```javascript
+/**
+ * @param {function?} options.reportFilter
+ * @param {function?} options.generateLogItem
+ */
+```
+
 ### 0.1.1
 
 - `errorCaptcher` 手动错误上报
@@ -7,7 +20,7 @@
 
 ```javascript
 /**
- *
+ * 加载初始化配置
  * @param {object?} options
  * @param {string} options.appId default '',
  * @param {string} options.userId default '',

@@ -19,7 +19,7 @@ function __loadConfig(options: IConfig) {
       eventList: ['click', 'touchstart', 'mousedown'],
       selectorType: 'xpath',
     },
-    options
+    options,
   )
   setStore('config', options)
   const { errorReport, routerType, autoTracker } = options
@@ -40,7 +40,7 @@ function __loadConfig(options: IConfig) {
 }
 
 /**
- *
+ * 加载初始化配置
  * @param {object} options
  * @param {string} options.appId default '',
  * @param {string} options.userId default '',
@@ -53,15 +53,17 @@ function __loadConfig(options: IConfig) {
  * @param {any} options.reportLevelFilter default [],
  * @param {string[]} options.eventList default ['click', 'touchstart', 'mousedown'],
  * @param {string} options.selectorType default 'xpath',
- * 
+ * @param {function?} options.reportFilter
+ * @param {function?} options.generateLogItem
+ *
  * ### options.selectorType 可选值
  * - xpath
  * - selector
- * 
+ *
  * 默认值为 xpath
  *
  * ### options.delay 单位为毫秒
- * 
+ *
  * ### cacheLimit 默认值为 10
  */
 export function loadConfig(options: IConfig) {
