@@ -1,23 +1,27 @@
-function __getDomSelector($dom: Node) {
-  const domTag = $dom.nodeName.toLowerCase()
-  if ($dom instanceof Element) {
-    if ($dom.id) {
-      return domTag + `#${$dom.id}`
-    } else if ($dom.classList.length) {
-      return domTag + `.${Array.from($dom.classList).join('.')}`
+export function getSelector($dom: TSome<Node>): string {
+  function __getDomSelector($dom: Node): string {
+    const domTag: string = $dom.nodeName.toLowerCase()
+    if ($dom instanceof Element) {
+      if ($dom.id) {
+        return domTag + `#${$dom.id}`
+      } else if ($dom.classList.length) {
+        return domTag + `.${Array.from($dom.classList).join('.')}`
+      }
+      const idx: number = [...($dom.parentNode?.children || [])].findIndex(item => item === $dom)
+      if (~idx) {
+        return `${domTag}:nth-child(${idx + 1})`
+      }
+      console.warn('当前选择不准确')
+      return domTag
     }
+    return ''
   }
-  return domTag
-}
-
-function __getSelectors($dom: TSome<Node>, suffix: string = ''): string {
-  if (!$dom || ~suffix.indexOf('#')) {
-    return suffix
+  function __getSelectors($dom: TSome<Node>, suffix: string = ''): string {
+    if (!$dom || ~suffix.indexOf('#')) {
+      return suffix
+    }
+    return __getSelectors($dom.parentElement, `${__getDomSelector($dom)}>${suffix}`)
   }
-  return __getSelectors($dom.parentElement, `${__getDomSelector($dom)}>${suffix}`)
-}
-
-export function getSelector($dom: Node) {
   return __getSelectors($dom).slice(0, -1)
 }
 
