@@ -38,7 +38,7 @@
     "dist"
   ],
   "publishConfig": {
-    "registry": "http://192.168.0.47:4873"
+    "registry": "https://registry.npmjs.org/"
   },
   "license": "ISC",
   "devDependencies": {
