@@ -18,6 +18,7 @@ function __loadConfig(options: IConfig) {
       reportLevelFilter: [],
       eventList: ['click', 'touchstart', 'mousedown'],
       selectorType: 'xpath',
+      reportMethodType: 'Beacon',
     },
     options,
   )
@@ -29,9 +30,13 @@ function __loadConfig(options: IConfig) {
   }
   // 自动埋点
   if (autoTracker) {
-    window.addEventListener('DOMContentLoaded', function () {
+    try {
       autoTrackerReport()
-    })
+    } catch {
+      window.addEventListener('DOMContentLoaded', function () {
+        autoTrackerReport()
+      })
+    }
   }
   // 路由埋点 pv统计
   if (routerType) {
@@ -55,6 +60,7 @@ function __loadConfig(options: IConfig) {
  * @param {string} options.selectorType default 'xpath',
  * @param {function?} options.reportFilter
  * @param {function?} options.generateLogItem
+ * @param {string?} options.reportMethodType default 'beacon'
  *
  * ### options.selectorType 可选值
  * - xpath

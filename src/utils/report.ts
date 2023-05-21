@@ -69,12 +69,24 @@ export function lazyReport(type: string, data: any) {
 
 export function report(data: TArray<ILogItem>) {
   const reportURL = getStore('config.reportURL')
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(reportURL, JSON.stringify(data))
-  } else {
+  const reportMethodType = getStore('config.reportMethodType')
+  if (reportMethodType === 'beacon') {
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(reportURL, JSON.stringify(data))
+    } else {
+      let $img: TSome<HTMLImageElement> = new Image()
+      $img.src = `${reportURL}?logs=${JSON.stringify(data)}`
+      $img = null
+    }
+  } else if (reportMethodType === 'img') {
     let $img: TSome<HTMLImageElement> = new Image()
     $img.src = `${reportURL}?logs=${JSON.stringify(data)}`
     $img = null
+  } else if (reportMethodType === 'fetch') {
+    fetch(reportURL, {
+      method: 'post',
+      body: JSON.stringify(data),
+    })
   }
   clearLogCache()
 }

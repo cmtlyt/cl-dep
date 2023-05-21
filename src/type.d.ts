@@ -25,6 +25,7 @@ interface IConfig {
   selectorType: string
   reportFilter?: Function
   generateLogItem?: Function
+  reportMethodType?: string
 }
 
 interface IUserAgent {
